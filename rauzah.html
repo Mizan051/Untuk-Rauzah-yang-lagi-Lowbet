@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Semangat Ya adekkk abang yang paling Cantik 🤍</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #ffe5ec;
+            --accent: #ff4d6d;
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --mono: 'Share Tech Mono', monospace;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #bg-hearts {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .b-heart {
+            position: absolute;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: b-float 4s linear infinite;
+        }
+
+        @keyframes b-float {
+            0% {
+                transform: translateY(110vh) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+            }
+        }
+
+        .container {
+            background: var(--white);
+            border: 4px solid var(--black);
+            border-radius: 24px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 10px 10px 0px var(--black);
+            z-index: 10;
+            position: relative;
+            display: none;
+        }
+
+        .active {
+            display: block;
+            animation: popUp 0.4s ease;
+        }
+
+        @keyframes popUp {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+        }
+
+        .msg-text {
+            font-size: 16px;
+            font-weight: 700;
+            min-height: 80px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .btn-style {
+            width: 100%;
+            margin: 10px 0;
+            padding: 14px;
+            font-family: var(--mono);
+            font-weight: 900;
+            cursor: pointer;
+            border: 3px solid var(--black);
+            border-radius: 15px;
+            box-shadow: 4px 4px 0px var(--black);
+            background: var(--accent);
+            color: white;
+            transition: 0.2s;
+        }
+
+        .btn-style:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--black);
+        }
+
+        .blocks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .block {
+            width: 44px;
+            height: 44px;
+            border: 3px solid var(--black);
+            border-radius: 12px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 var(--black);
+        }
+
+        .block.sel {
+            background: var(--accent);
+            color: white;
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="bg-hearts"></div>
+
+    <!-- Stage 1 -->
+    <div class="container active" id="stageMsg">
+        <div class="msg-text" id="typewriter"></div>
+        <button class="btn-style" id="nextBtn" onclick="flow()" style="display:none">LANJUT 🤍</button>
+    </div>
+
+    <!-- Game 1 -->
+    <div class="container" id="game1">
+        <p style="font-weight: 900; font-size: 12px; color:#888;">MISI 1</p>
+        <p style="font-weight: 700;">Susun Kata "SEMANGAT"</p>
+        <div class="blocks">
+            <div class="block" onclick="sel(this)">S</div>
+            <div class="block" onclick="sel(this)">E</div>
+            <div class="block" onclick="sel(this)">M</div>
+            <div class="block" onclick="sel(this)">A</div>
+            <div class="block" onclick="sel(this)">N</div>
+            <div class="block" onclick="sel(this)">G</div>
+            <div class="block" onclick="sel(this)">A</div>
+            <div class="block" onclick="sel(this)">T</div>
+        </div>
+        <p id="p-stat" style="font-weight:900; color:var(--accent); font-size:20px;"></p>
+    </div>
+
+    <!-- Final -->
+    <div class="container" id="finalStage">
+        <p style="font-weight:900; font-size: 18px;">Adek janji kuat yaa? 🤍</p>
+        <button class="btn-style" onclick="finish()">Siap, Adek Bakalan Kuat! 💪</button>
+    </div>
+
+    <script>
+        setInterval(() => {
+            const h = document.createElement('i');
+            h.className = 'fas fa-heart b-heart';
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.fontSize = (Math.random() * 15 + 10) + "px";
+            document.getElementById('bg-hearts').appendChild(h);
+            setTimeout(() => h.remove(), 4000);
+        }, 500);
+
+        let step = 0;
+        const messages = [
+            "Hai Adek abang yang paling cantikk 🤍",
+            "Maaf abang baru tau kalo adek lagi PMS dan pasti gak enak badan...",
+            "Perut sakit, badan pegel, mood naik turun ya 🥺",
+            "Tapi adek tetap cewek kuat dan hebat.",
+            "Abang selalu ada buat adek yang paling cantik (Rauzah) 🤍"
+        ];
+
+        function type() {
+            const t = messages[step];
+            let i = 0;
+            const el = document.getElementById('typewriter');
+            el.innerHTML = "";
+            document.getElementById('nextBtn').style.display = "none";
+
+            const timer = setInterval(() => {
+                el.innerHTML += t.charAt(i);
+                i++;
+                if (i >= t.length) {
+                    clearInterval(timer);
+                    document.getElementById('nextBtn').style.display = "block";
+                }
+            }, 40);
+        }
+
+        function flow() {
+            step++;
+            if (step < messages.length) {
+                type();
+            } else {
+                document.getElementById('stageMsg').classList.remove('active');
+                document.getElementById('game1').classList.add('active');
+            }
+        }
+
+        type();
+
+        let word = "";
+        function sel(e) {
+            if (e.classList.contains('sel')) return;
+            e.classList.add('sel');
+            word += e.innerText;
+            document.getElementById('p-stat').innerText = word;
+
+            if (word === "SEMANGAT") {
+                setTimeout(() => {
+                    document.getElementById('game1').classList.remove('active');
+                    document.getElementById('finalStage').classList.add('active');
+                }, 800);
+            } else if (word.length >= 8) {
+                alert("Hehe coba lagi ya 🤍");
+                word = "";
+                document.querySelectorAll('.block').forEach(b => b.classList.remove('sel'));
+                document.getElementById('p-stat').innerText = "";
+            }
+        }
+
+        function finish() {
+            confetti({ particleCount: 200, spread: 80 });
+            document.getElementById('finalStage').innerHTML = `
+        <h2 style="color:var(--accent)">SEMANGAT YA ADEK ABANG YANG PALING CANTIK 🤍</h2>
+        <p style="font-weight:700; line-height:1.6">
+          Walaupun lagi PMS dan gak enak badan,<br><br>
+          Adek tetap perempuan paling kuat yang abang kenal.<br><br>
+          Jangan lupa istirahat, minum air hangat,<br>
+          dan jangan banyak pikiran yaa.<br><br>
+          Abang selalu ada buat adek yang paling cantik ini. 🤍
+        </p>
+      `;
+        }
+    </script>
+
+</body>
+
+</html>
